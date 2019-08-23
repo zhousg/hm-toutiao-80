@@ -11,6 +11,10 @@ import '@/styles/index.less'
 // index.js index.vue index.json 优先级和书写顺序一致，默认三种文件
 import router from '@/router'
 
+// 简单配置axios
+import axios from 'axios'
+Vue.prototype.$http = axios
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

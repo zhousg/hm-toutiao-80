@@ -1,13 +1,13 @@
 <template>
-  <div class='container'>
+  <div class='container' ref="box">
     <!-- 卡片 element-ui 组件 -->
     <el-card class="my-card">
       <img src="../../assets/images/logo_index.png" alt="">
-      <el-form :model="loginForm">
-        <el-form-item>
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
+        <el-form-item prop="mobile">
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="code">
           <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:236px;margin-right:10px"></el-input>
           <el-button>发送验证码</el-button>
         </el-form-item>
@@ -15,7 +15,7 @@
           <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-           <el-button type="primary" style="width:100%">登 录</el-button>
+           <el-button @click="login()" type="primary" style="width:100%">登 录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -24,12 +24,64 @@
 
 <script>
 export default {
+  // mounted () {
+  //   // 渲染完毕
+  //   // $refs  是当前组件上所有使用过ref属性的元素集合（对象）
+  //   // ref="value" value就是你集合中的属性名称
+  //   // const box = this.$refs.box  标签  dom
+  //   // const loginForm = this.$refs.loginForm
+  //   // console.log(box)   组件  vue实例
+  //   // console.log(loginForm)
+  // },
   data () {
+    // 定义一个校验函数
+    const checkMobile = (rule, value, callback) => {
+      // 实现校验逻辑
+      // 是否是合法手机号：第一位数字 只能1 第二位数字 3-9 其余9位数字结尾 即可
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        return callback(new Error('手机号不合法'))
+      }
+      callback()
+    }
     return {
+      // 表单数据对象
       loginForm: {
         mobile: '',
         code: ''
+      },
+      // 表单校验规则对象
+      loginRules: {
+        // 给字段加校验规则（多个）
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          // change 值改变触发 校验规则
+          { validator: checkMobile, trigger: 'change' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '验证码长度6位', trigger: 'blur' }
+        ]
       }
+    }
+  },
+  methods: {
+    login () {
+      // 调用 validate 对整体表进行校验
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // 校验成功  调用登录接口
+          this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm)
+            .then(res => {
+              // 成功 跳转
+              // 注意 登录 不够完善
+              this.$router.push('/')
+            })
+            .catch(() => {
+              // 失败 提示
+              this.$message.error('手机号或验证码错误')
+            })
+        }
+      })
     }
   }
 }
