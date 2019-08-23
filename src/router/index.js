@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
+import NotFound from '@/views/404'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,8 @@ const router = new VueRouter({
         // 路由规则  子路由有名称  父路由不需要设置name属性
         { path: '/', name: 'welcome', component: Welcome }
       ]
-    }
+    },
+    { path: '*', name: '404', component: NotFound }
   ]
 })
 
