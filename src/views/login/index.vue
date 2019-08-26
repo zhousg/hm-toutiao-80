@@ -68,23 +68,37 @@ export default {
   methods: {
     login () {
       // 调用 validate 对整体表进行校验
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          // 校验成功  调用登录接口
-          this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm)
-            .then(res => {
-              // 成功 跳转
-              // 注意 登录 不够完善
-              // res是响应对象--->res.data响应主体---->res.data.data响应主体包含（message,data）
-              // 用户信息  res.data.data
-              // 操作用户信息 就是操作 store 存储  写一个模块进行用户信息的操作。
-              store.setUser(res.data.data)
-              this.$router.push('/')
-            })
-            .catch(() => {
-              // 失败 提示
-              this.$message.error('手机号或验证码错误')
-            })
+          // // 校验成功  调用登录接口
+          // this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm)
+          //   .then(res => {
+          //     // 成功 跳转
+          //     // 注意 登录 不够完善
+          //     // res是响应对象--->res.data响应主体---->res.data.data响应主体包含（message,data）
+          //     // 用户信息  res.data.data
+          //     // 操作用户信息 就是操作 store 存储  写一个模块进行用户信息的操作。
+          //     store.setUser(res.data.data)
+          //     this.$router.push('/')
+          //   })
+          //   .catch(() => {
+          //     // 失败 提示
+          //     this.$message.error('手机号或验证码错误')
+          //   })
+
+          // 1. 获取登录成功后的 用户信息数据  res = {data:{data:'用户信息',message:'提示'}}
+          // 2. 当获取数据失败 提示错误信息
+          // 3. js基础语法怎么去捕获异常（报错）
+          // try{ //可能报错的代码 }catch(exception){ //获取到异常报错（处理异常） }
+          // await 获取promise的成功结果，失败使用try{}catch(e){}进行处理。
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            store.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            // 进行错误提示即可
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
     }
