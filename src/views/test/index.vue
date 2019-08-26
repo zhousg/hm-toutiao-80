@@ -1,5 +1,6 @@
 <template>
   <div class='container'>
+    <my-bread>测试组件</my-bread>
     <!-- 使用组件 -->
     <com-a>
       <!-- slot="content" 指定插槽名称  -->

@@ -4,10 +4,8 @@
     <el-card>
       <!-- 头部 -->
       <div slot="header">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb>
+        <!-- 使用封装的组件 -->
+        <my-bread>内容管理</my-bread>
       </div>
       <!-- 表单 -->
       <el-form label-width="80px" size="small">

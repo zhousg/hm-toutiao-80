@@ -13,6 +13,10 @@ import router from '@/router'
 
 // 简单配置axios
 import axios from '@/api'
+
+import myPlugin from '@/components'
+Vue.use(myPlugin)
+
 Vue.prototype.$http = axios
 
 Vue.use(ElementUI)
