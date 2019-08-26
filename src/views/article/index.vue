@@ -44,6 +44,17 @@
       </el-form>
     </el-card>
     <!-- 筛选结果 -->
+    <el-card>
+      <div slot="header">根据筛选条件共查询到 0 条结果：</div>
+      <!-- 表格 -->
+      <el-table :data="tableData">
+        <el-table-column prop="date" label="日期" width="180"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+        <el-table-column prop="address" label="地址"></el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <el-pagination class="pager" background layout="prev, pager, next" :total="1000"></el-pagination>
+    </el-card>
   </div>
 </template>
 
@@ -62,10 +73,41 @@ export default {
       // 频道的下拉选项数据
       channelOptions: [{ id: 100, name: 'php' }],
       // 日期数据  格式数组 [起始日期，结束日期]
-      dateArr: []
+      dateArr: [],
+      // 表格数据
+      tableData: [
+        {
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        },
+        {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        },
+        {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }
+      ]
     }
   }
 }
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang='less'>
+.el-card {
+  margin-bottom: 20px;
+}
+.pager{
+  text-align: center;
+  margin-top: 20px;
+}
+</style>
