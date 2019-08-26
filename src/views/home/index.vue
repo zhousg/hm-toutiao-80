@@ -4,8 +4,15 @@
       <!-- logo -->
       <div class="logo" :class="{miniLogo:isCollapse}"></div>
       <!-- 导航菜单 -->
+      <!-- 你处于什么页面，激活什么菜单，怎么判断，通过路径判断。  -->
+      <!-- 根据路径 去激活当前的菜单  怎么获取当前路径 -->
+      <!-- $route 调用数据 this.$route.query|params   $router 调用函数  this.$router.push() -->
+      <!-- query 获取地址栏 ?key=value 的传参  this.$route.query.key-->
+      <!-- params 获取地址栏 user/:id === user/100 的传参 this.$route.params.id-->
+      <!-- $route.path 当前路径 -->
+      <!-- :default-active="当前路径"  -->
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#002033"
         text-color="#fff"
