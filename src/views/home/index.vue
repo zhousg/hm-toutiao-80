@@ -50,16 +50,16 @@
         <span @click="toggleAside()" class="icon el-icon-s-fold"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
         <!-- 下拉菜单组件 -->
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="clickItem">
           <span class="el-dropdown-link">
-            <img class="avatar" src="../../assets/images/avatar.jpg" alt />
-            <span class="name">用户名称</span>
+            <img class="avatar" :src="photo" alt />
+            <span class="name"> {{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <!-- vue基础知识  插槽 -->
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -72,13 +72,45 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     return {
-      isCollapse: false
+      isCollapse: false,
+      name: '',
+      photo: ''
     }
   },
+  created () {
+    const user = store.getUser()
+    this.name = user.name
+    this.photo = user.photo
+  },
   methods: {
+    clickItem (command) {
+      // 判断值  setting 还是 logout
+      // 如果 command === setting 调用  this.setting()
+      // 如果 command === logout 调用  this.logout()
+      // 意思：const o = {a:10,b:20}  等价  o.a === o['a']
+      this[command]()
+    },
+    // 绑定的是 click 事件，原生DOM支持的事件。
+    // el-dropdown-item 组件，是否支持click事件，看文档。
+    // 怎么给组件绑定原生的事件？？？
+    // 按键修饰符：@keyup.enter  按下enter键后触发的事件
+    // 事件修饰符：@click.stop  阻止事件冒泡
+    // 事件修饰符：@click.native 给组件绑定原生的事件
+    // 个人设置
+    setting () {
+      this.$router.push('/setting')
+    },
+    // 退出登录
+    logout () {
+      // 1. 删除本地的用户信息
+      store.delUser()
+      // 2. 跳转到登录
+      this.$router.push('/login')
+    },
     toggleAside () {
       // 切换两个状态  展开  收起
       // vue 操作样式  :style  :class
