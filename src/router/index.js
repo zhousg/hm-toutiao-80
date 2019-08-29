@@ -7,7 +7,7 @@ import Login from '@/views/login'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
-import Test from '@/views/test'
+import Test from '@/views/test/com-parent'
 import Article from '@/views/article'
 
 Vue.use(VueRouter)
