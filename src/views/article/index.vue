@@ -19,15 +19,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <!-- 依赖两项  下拉选择器的值  下拉选择器的选项 -->
-          <el-select clearable v-model="reqParams.channel_id" placeholder="请选择">
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+           <!-- 使用组件 v-model === :value @input -->
+           <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -120,8 +113,6 @@ export default {
         page: 1,
         per_page: 20
       },
-      // 频道的下拉选项数据
-      channelOptions: [],
       // 日期数据  格式数组 [起始日期，结束日期]
       dateArr: [],
       // 表格数据
@@ -131,8 +122,6 @@ export default {
     }
   },
   created () {
-    // 获取频道选项数据
-    this.getChannelOptions()
     // 获取文章列表数据
     this.getArticles()
   },
@@ -162,7 +151,7 @@ export default {
       // 页码重置到 1
       this.reqParams.page = 1
       // 严谨处理 channel_id === "" 改成 null
-      if (this.reqParams.channel_id === '') this.reqParams.channel_id = null
+      // if (this.reqParams.channel_id === '') this.reqParams.channel_id = null
       this.getArticles()
     },
     // 选择日期范围后触发的函数
@@ -181,14 +170,6 @@ export default {
     changePager (newPage) {
       this.reqParams.page = newPage
       this.getArticles()
-    },
-    async getChannelOptions () {
-      // data.channels 数组 [{id,name}]
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      // 赋值
-      this.channelOptions = data.channels
     },
     async getArticles () {
       // data.results 才是文章列表
