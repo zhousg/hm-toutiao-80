@@ -10,6 +10,7 @@ import NotFound from '@/views/404'
 import Test from '@/views/test/com-parent'
 import Article from '@/views/article'
 import Image from '@/views/image'
+import Publish from '@/views/publish'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,8 @@ const router = new VueRouter({
         // 路由规则  子路由有名称  父路由不需要设置name属性
         { path: '/', name: 'welcome', component: Welcome },
         { path: '/article', name: 'article', component: Article },
-        { path: '/image', name: 'image', component: Image }
+        { path: '/image', name: 'image', component: Image },
+        { path: '/publish', name: 'publish', component: Publish }
       ]
     },
     { path: '*', name: '404', component: NotFound }
