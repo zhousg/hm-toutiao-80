@@ -11,14 +11,18 @@
       <div slot="footer">底部1</div>
     </com-a>
     <hr>
-    <com-a></com-a>
+    <!-- <com-a></com-a> -->
+
+    <hr>
+    <com-b></com-b>
   </div>
 </template>
 
 <script>
 import ComA from './com-a'
+import ComB from './com-b'
 export default {
-  components: { ComA }
+  components: { ComA, ComB }
   // async created () {
   //   // 1. 使用promise 调用A接口后调用B接口获取所有的数据
   //   // this.$http.get('http://localhost:3000/a')
