@@ -82,6 +82,32 @@ export default {
       articleId: null
     }
   },
+  // 监听$route.query.id变化  重置表单数据  清空文章ID数据
+  watch: {
+    '$route.query.id': function (newVal, oldVal) {
+      // 当发布文章改成修改文章  回退历史
+      if (newVal) {
+        // 判断业务articleId 存在修改  不存在 发表
+        this.articleId = this.$route.query.id
+        if (this.articleId) {
+          // 获取数据 填充表单
+          this.getArticle()
+        }
+        return false
+      }
+      // 当编辑文章改成发布文章
+      this.articleForm = {
+        title: '',
+        content: '',
+        cover: {
+          type: 1,
+          images: []
+        },
+        channel_id: null
+      }
+      this.articleId = null
+    }
+  },
   created () {
     // 判断业务articleId 存在修改  不存在 发表
     this.articleId = this.$route.query.id
