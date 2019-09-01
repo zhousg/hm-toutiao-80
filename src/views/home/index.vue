@@ -80,6 +80,7 @@
 
 <script>
 import store from '@/store'
+import eventBus from '@/eventBus'
 export default {
   data () {
     return {
@@ -92,6 +93,13 @@ export default {
     const user = store.getUser()
     this.name = user.name
     this.photo = user.photo
+    // 绑定事件
+    eventBus.$on('updateName', (name) => {
+      this.name = name
+    })
+    eventBus.$on('updatePhoto', (photo) => {
+      this.photo = photo
+    })
   },
   methods: {
     clickItem (command) {
